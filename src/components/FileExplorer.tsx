@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { NodeDragService } from "../services/NodeDragService";
+
+const dragService = new NodeDragService();
 
 enum NodeType {
   Folder = "Folder",
@@ -51,9 +53,35 @@ interface RendererProps {
   onEvent: (ev: ExplorerEvent) => void;
 }
 
+interface NodeMoveEventData {
+  nodeId: string;
+  targetNodeId: string;
+}
+
 function FileRenderer(props: RendererProps) {
   return (
-    <div style={{ paddingLeft: getPaddingOfNode(props.node) }}>
+    <div
+      draggable
+      style={{ paddingLeft: getPaddingOfNode(props.node) }}
+      onDragStart={(ev) => {
+        // ev.dataTransfer.setData("text", props.node.id);
+        console.log("drag start", props.node.id);
+        ev.dataTransfer.effectAllowed = "move";
+        dragService.startDrag(props.node);
+      }}
+      onDragEnd={(ev) => {
+        if (ev.dataTransfer.dropEffect === "none") {
+          dragService.abortDrag();
+        } else {
+          const nodeId = dragService.getDraggedNode()!.id;
+          const event = createEvent("nodeMove", {
+            nodeId,
+            targetNodeId: dragService.getDropTargetNode()!.id,
+          } as NodeMoveEventData);
+          props.onEvent(event);
+        }
+      }}
+    >
       📄 <span>{props.node.name}</span>
     </div>
   );
@@ -69,6 +97,19 @@ function FolderRenderer(props: RendererProps) {
     <div
       data-level={props.node.level}
       style={{ paddingLeft: getPaddingOfNode(props.node) }}
+      onDragEnter={(ev) => {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = "move";
+        dragService.setDropTargetNode(props.node);
+      }}
+      onDragOver={(ev) => {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = "move";
+        dragService.setDropTargetNode(props.node);
+      }}
+      onDragLeave={() => {
+        dragService.setDropTargetNode(undefined);
+      }}
     >
       📁 {props.node.name}
       <span className="actions">
@@ -91,4 +132,4 @@ function createEvent(type: string, data: unknown) {
 }
 
 export { FileExplorer, NodeType };
-export type { TreeNode, ExplorerEvent };
+export type { TreeNode, ExplorerEvent, NodeMoveEventData };

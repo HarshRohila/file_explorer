@@ -3,10 +3,12 @@ import "./App.css";
 import {
   ExplorerEvent,
   FileExplorer,
+  NodeMoveEventData,
   NodeType,
   TreeNode,
-} from "./assets/FileExplorer";
+} from "./components/FileExplorer";
 import { newId } from "./utils/newId";
+import { TreeNodeUtils } from "./utils/TreeNodeUtils";
 
 function createNode(node: Partial<TreeNode>): TreeNode {
   const id = newId();
@@ -46,7 +48,18 @@ const data: TreeNode = {
 function App() {
   const [explorerData, setExplorerData] = useState(data);
 
-  const handleEvent = (event: ExplorerEvent) => {};
+  const handleEvent = (event: ExplorerEvent) => {
+    console.dir(event);
+    if (event.type === "nodeMove") {
+      const treeNodeUtils = new TreeNodeUtils(explorerData);
+      const eventData = event.data as NodeMoveEventData;
+      const newRoot = treeNodeUtils.moveNodeToTarget(
+        eventData.nodeId,
+        eventData.targetNodeId
+      );
+      setExplorerData(newRoot);
+    }
+  };
 
   console.log(explorerData);
 
