@@ -46,24 +46,7 @@ const data: TreeNode = {
 function App() {
   const [explorerData, setExplorerData] = useState(data);
 
-  const handleEvent = (event: ExplorerEvent) => {
-    if (event.type === "addFile") {
-      const node = event.data as TreeNode;
-      node.children.unshift(
-        createNode({
-          id: "100",
-          isEditMode: true,
-          name: "",
-          level: node.level + 1,
-        })
-      );
-      setExplorerData({ ...explorerData });
-    } else if (event.type === "updateNode") {
-      const node = event.data as TreeNode;
-      node.isEditMode = false;
-      setExplorerData({ ...explorerData });
-    }
-  };
+  const handleEvent = (event: ExplorerEvent) => {};
 
   console.log(explorerData);
 

@@ -52,25 +52,10 @@ interface RendererProps {
 }
 
 function FileRenderer(props: RendererProps) {
-  const [formState, setFormState] = useState({ name: props.node.name });
-
   return (
-    <form
-      style={{ paddingLeft: getPaddingOfNode(props.node) }}
-      onSubmit={(ev) => {
-        ev.preventDefault();
-        const event = createEvent("updateNode", props.node);
-        props.onEvent(event);
-      }}
-    >
-      📄{" "}
-      <input
-        type="text"
-        onChange={(e) => setFormState({ name: e.target.value })}
-        value={formState.name}
-        readOnly={!props.node.isEditMode}
-      />
-    </form>
+    <div style={{ paddingLeft: getPaddingOfNode(props.node) }}>
+      📄 <span>{props.node.name}</span>
+    </div>
   );
 }
 
