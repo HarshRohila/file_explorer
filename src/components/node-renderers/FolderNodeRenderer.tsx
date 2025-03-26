@@ -17,6 +17,7 @@ function FolderNodeRenderer(props: NodeRendererProps) {
 
   return (
     <div
+      className="folder-node"
       data-level={props.node.level}
       onDragEnter={(ev) => {
         ev.preventDefault();
@@ -34,8 +35,8 @@ function FolderNodeRenderer(props: NodeRendererProps) {
     >
       📁 {props.node.name}
       <span className="actions">
-        <button onClick={handleAddFile}>Add File</button>
-        <button onClick={handleAddFolder}>Add Folder</button>
+        <button onClick={handleAddFile}>✚ File</button>
+        <button onClick={handleAddFolder}>✚ Folder</button>
       </span>
     </div>
   );
