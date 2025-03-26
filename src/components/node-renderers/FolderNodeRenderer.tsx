@@ -9,6 +9,12 @@ function FolderNodeRenderer(props: NodeRendererProps) {
     );
   };
 
+  const handleAddFolder = () => {
+    props.onEvent(
+      createExplorerEvent(ExplorerEvents.ShowNewFolderForm, undefined)
+    );
+  };
+
   return (
     <div
       data-level={props.node.level}
@@ -29,7 +35,7 @@ function FolderNodeRenderer(props: NodeRendererProps) {
       📁 {props.node.name}
       <span className="actions">
         <button onClick={handleAddFile}>Add File</button>
-        <button>Add Folder</button>
+        <button onClick={handleAddFolder}>Add Folder</button>
       </span>
     </div>
   );

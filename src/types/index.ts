@@ -27,6 +27,7 @@ enum ExplorerEvents {
   NodeMove = "NodeMove",
   NodeChange = "NodeChange",
   ShowNewFileForm = "ShowNewFileForm",
+  ShowNewFolderForm = "ShowNewFolderForm",
 }
 
 export { NodeType, ExplorerEvents };

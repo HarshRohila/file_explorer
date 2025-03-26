@@ -1,4 +1,7 @@
-import { TreeNode } from "../types";
+import { createNode } from ".";
+import { NewFileFormData } from "../components/NewFIleForm";
+import { NewFolderFormData } from "../components/NewFolderForm";
+import { NodeType, TreeNode } from "../types";
 
 class TreeNodeUtils {
   constructor(private rootNode: TreeNode) {}
@@ -86,6 +89,34 @@ class TreeNodeUtils {
     };
 
     return findParent(nodeId, this.rootNode);
+  }
+
+  addNewFile(newFileFormData: NewFileFormData): TreeNode {
+    const root = this.rootNode;
+
+    const newNode = createNode({
+      name: newFileFormData.fileName,
+      type: NodeType.File,
+      level: root.level + 1,
+    });
+    return {
+      ...root,
+      children: [newNode, ...root.children],
+    };
+  }
+
+  addNewFolder(newFileFormData: NewFolderFormData): TreeNode {
+    const root = this.rootNode;
+
+    const newNode = createNode({
+      name: newFileFormData.folderName,
+      type: NodeType.Folder,
+      level: root.level + 1,
+    });
+    return {
+      ...root,
+      children: [newNode, ...root.children],
+    };
   }
 }
 
