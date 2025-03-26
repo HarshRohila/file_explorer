@@ -5,22 +5,9 @@ import {
   FileExplorer,
   NodeMoveEventData,
 } from "./components/FileExplorer";
-import { newId } from "./utils/newId";
 import { TreeNodeUtils } from "./utils/TreeNodeUtils";
 import { ExplorerEvents, NodeType, TreeNode } from "./types";
-
-function createNode(node: Partial<TreeNode>): TreeNode {
-  const id = newId();
-  return {
-    id: newId(),
-    name: id,
-    type: NodeType.File,
-    children: [],
-    level: 1,
-    isEditMode: false,
-    ...node,
-  };
-}
+import { createNode } from "./utils";
 
 const data: TreeNode = {
   id: "root",
@@ -47,15 +34,18 @@ const data: TreeNode = {
 function App() {
   const [explorerData, setExplorerData] = useState(data);
 
+  const treeNodeUtils = new TreeNodeUtils(explorerData);
+
   const handleEvent = (event: ExplorerEvent) => {
-    console.dir(event);
     if (event.type === ExplorerEvents.NodeMove) {
-      const treeNodeUtils = new TreeNodeUtils(explorerData);
       const eventData = event.data as NodeMoveEventData;
       const newRoot = treeNodeUtils.moveNodeToTarget(
         eventData.nodeId,
         eventData.targetNodeId
       );
+      setExplorerData(newRoot);
+    } else if (event.type === ExplorerEvents.NodeChange) {
+      const newRoot = treeNodeUtils.upsertNode(event.data as TreeNode);
       setExplorerData(newRoot);
     }
   };

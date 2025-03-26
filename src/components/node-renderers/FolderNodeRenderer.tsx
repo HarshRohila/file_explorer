@@ -1,17 +1,17 @@
 import { dragService } from "../../services/NodeDragService";
-import { NodeRendererProps } from "../../types";
-import { createExplorerEvent, getPaddingOfNode } from "../../utils";
+import { ExplorerEvents, NodeRendererProps } from "../../types";
+import { createExplorerEvent } from "../../utils";
 
 function FolderNodeRenderer(props: NodeRendererProps) {
   const handleAddFile = () => {
-    const ev = createExplorerEvent("addFile", props.node);
-    props.onEvent(ev);
+    props.onEvent(
+      createExplorerEvent(ExplorerEvents.ShowNewFileForm, undefined)
+    );
   };
 
   return (
     <div
       data-level={props.node.level}
-      style={{ paddingLeft: getPaddingOfNode(props.node) }}
       onDragEnter={(ev) => {
         ev.preventDefault();
         ev.dataTransfer.dropEffect = "move";

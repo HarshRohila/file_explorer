@@ -20,10 +20,13 @@ interface ExplorerEvent {
 interface NodeRendererProps {
   node: TreeNode;
   onEvent: (ev: ExplorerEvent) => void;
+  onChange: (node: TreeNode) => void;
 }
 
 enum ExplorerEvents {
   NodeMove = "NodeMove",
+  NodeChange = "NodeChange",
+  ShowNewFileForm = "ShowNewFileForm",
 }
 
 export { NodeType, ExplorerEvents };

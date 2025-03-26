@@ -1,13 +1,12 @@
 import { dragService } from "../../services/NodeDragService";
 import { ExplorerEvents, NodeRendererProps } from "../../types";
-import { createExplorerEvent, getPaddingOfNode } from "../../utils";
+import { createExplorerEvent } from "../../utils";
 import { NodeMoveEventData } from "../FileExplorer";
 
 function FileNodeRenderer(props: NodeRendererProps) {
   return (
     <div
       draggable
-      style={{ paddingLeft: getPaddingOfNode(props.node) }}
       onDragStart={(ev) => {
         ev.dataTransfer.effectAllowed = "move";
         dragService.startDrag(props.node);

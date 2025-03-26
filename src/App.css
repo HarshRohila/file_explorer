@@ -43,3 +43,10 @@
 input:read-only {
   border: solid 1px transparent;
 }
+
+.explorer {
+  padding-left: 20px;
+}
+.new-file-form {
+  padding-left: 20px;
+}

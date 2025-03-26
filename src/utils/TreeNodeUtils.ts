@@ -12,6 +12,23 @@ class TreeNodeUtils {
     return { ...this.rootNode };
   }
 
+  upsertNode(newNode: TreeNode) {
+    const upsert = (newNode: TreeNode, parent: TreeNode) => {
+      if (parent.id === newNode.id) {
+        Object.assign(parent, newNode);
+        return;
+      }
+
+      for (const child of parent.children) {
+        upsert(newNode, child);
+      }
+    };
+
+    upsert(newNode, this.rootNode);
+
+    return { ...this.rootNode };
+  }
+
   findNodeById(nodeId: string): TreeNode | undefined {
     const findNode = (
       nodeId: string,
