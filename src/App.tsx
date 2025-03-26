@@ -50,8 +50,6 @@ function App() {
     }
   };
 
-  console.log(explorerData);
-
   return (
     <>
       <FileExplorer onEvent={handleEvent} root={explorerData} />

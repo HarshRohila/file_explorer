@@ -13,11 +13,6 @@ class NodeDragService {
     this.draggedNode = undefined;
   }
 
-  onDragSuccess(targetNodeId: string, root: TreeNode) {
-    const treeNodeUtils = new TreeNodeUtils(root);
-    treeNodeUtils.moveNodeToTarget(this.draggedNode!.id, targetNodeId);
-  }
-
   setDropTargetNode(targetNode: TreeNode | undefined) {
     this.dropTargetNode = targetNode;
   }

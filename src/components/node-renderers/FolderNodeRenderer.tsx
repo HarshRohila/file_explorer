@@ -34,6 +34,8 @@ function FolderNodeRenderer(props: NodeRendererProps) {
         if (isTargetValid) {
           ev.dataTransfer.dropEffect = "move";
           dragService.setDropTargetNode(props.node);
+        } else {
+          dragService.setDropTargetNode(undefined);
         }
       }}
       onDragOver={(ev) => {
