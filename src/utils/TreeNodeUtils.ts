@@ -118,6 +118,32 @@ class TreeNodeUtils {
       children: [newNode, ...root.children],
     };
   }
+
+  static isFirstChildOfSecondOrSame(first: TreeNode, second: TreeNode) {
+    const isChildOfParent = (node: TreeNode, parent: TreeNode) => {
+      if (node.id === parent.id) {
+        return true;
+      }
+
+      if (parent.children.some((n) => n.id === node.id)) {
+        return true;
+      } else {
+        for (const child of parent.children) {
+          if (isChildOfParent(node, child)) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    };
+
+    return isChildOfParent(first, second);
+  }
+
+  static isFirstDirectChildOfSecond(first: TreeNode, second: TreeNode) {
+    return second.children.some((n) => n.id === first.id);
+  }
 }
 
 export { TreeNodeUtils };

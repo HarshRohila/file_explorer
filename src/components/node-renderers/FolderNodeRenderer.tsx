@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { dragService } from "../../services/NodeDragService";
 import { ExplorerEvents, NodeRendererProps } from "../../types";
-import { createExplorerEvent } from "../../utils";
+import {
+  createDraggablePropsForNodeRenderer,
+  createExplorerEvent,
+} from "../../utils";
 
 function FolderNodeRenderer(props: NodeRendererProps) {
   const handleAddFile = () => {
@@ -15,22 +19,25 @@ function FolderNodeRenderer(props: NodeRendererProps) {
     );
   };
 
+  const [isDragAllowed, setIsDragAllowed] = useState(false);
+
   return (
     <div
-      className="folder-node"
+      {...createDraggablePropsForNodeRenderer(props)}
+      className={`folder-node ${isDragAllowed ? "drag-allowed" : ""}`}
       data-level={props.node.level}
       onDragEnter={(ev) => {
         ev.preventDefault();
-        ev.dataTransfer.dropEffect = "move";
-        dragService.setDropTargetNode(props.node);
+        const isTargetValid = dragService.isDragAllowedAtTarget(props.node);
+        setIsDragAllowed(isTargetValid);
+
+        if (isTargetValid) {
+          ev.dataTransfer.dropEffect = "move";
+          dragService.setDropTargetNode(props.node);
+        }
       }}
       onDragOver={(ev) => {
         ev.preventDefault();
-        ev.dataTransfer.dropEffect = "move";
-        dragService.setDropTargetNode(props.node);
-      }}
-      onDragLeave={() => {
-        dragService.setDropTargetNode(undefined);
       }}
     >
       📁 {props.node.name}

@@ -1,21 +1,21 @@
-import { TreeNode } from "../types";
+import { NodeType, TreeNode } from "../types";
 import { TreeNodeUtils } from "../utils/TreeNodeUtils";
 
 class NodeDragService {
-  private node: TreeNode | undefined;
+  private draggedNode: TreeNode | undefined;
   private dropTargetNode: TreeNode | undefined;
 
   startDrag(node: TreeNode) {
-    this.node = node;
+    this.draggedNode = node;
   }
 
   abortDrag() {
-    this.node = undefined;
+    this.draggedNode = undefined;
   }
 
   onDragSuccess(targetNodeId: string, root: TreeNode) {
     const treeNodeUtils = new TreeNodeUtils(root);
-    treeNodeUtils.moveNodeToTarget(this.node!.id, targetNodeId);
+    treeNodeUtils.moveNodeToTarget(this.draggedNode!.id, targetNodeId);
   }
 
   setDropTargetNode(targetNode: TreeNode | undefined) {
@@ -27,7 +27,21 @@ class NodeDragService {
   }
 
   getDraggedNode() {
-    return this.node;
+    return this.draggedNode;
+  }
+
+  isDragAllowedAtTarget(target: TreeNode) {
+    if (TreeNodeUtils.isFirstDirectChildOfSecond(this.draggedNode!, target)) {
+      return false;
+    }
+    if (this.draggedNode?.type === NodeType.File) {
+      return true;
+    } else {
+      return !TreeNodeUtils.isFirstChildOfSecondOrSame(
+        target,
+        this.draggedNode!
+      );
+    }
   }
 }
 
