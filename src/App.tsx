@@ -4,11 +4,10 @@ import {
   ExplorerEvent,
   FileExplorer,
   NodeMoveEventData,
-  NodeType,
-  TreeNode,
 } from "./components/FileExplorer";
 import { newId } from "./utils/newId";
 import { TreeNodeUtils } from "./utils/TreeNodeUtils";
+import { ExplorerEvents, NodeType, TreeNode } from "./types";
 
 function createNode(node: Partial<TreeNode>): TreeNode {
   const id = newId();
@@ -50,7 +49,7 @@ function App() {
 
   const handleEvent = (event: ExplorerEvent) => {
     console.dir(event);
-    if (event.type === "nodeMove") {
+    if (event.type === ExplorerEvents.NodeMove) {
       const treeNodeUtils = new TreeNodeUtils(explorerData);
       const eventData = event.data as NodeMoveEventData;
       const newRoot = treeNodeUtils.moveNodeToTarget(

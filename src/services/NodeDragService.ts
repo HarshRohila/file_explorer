@@ -1,4 +1,4 @@
-import { TreeNode } from "../components/FileExplorer";
+import { TreeNode } from "../types";
 import { TreeNodeUtils } from "../utils/TreeNodeUtils";
 
 class NodeDragService {
@@ -31,4 +31,6 @@ class NodeDragService {
   }
 }
 
-export { NodeDragService };
+const dragService = new NodeDragService();
+
+export { NodeDragService, dragService };

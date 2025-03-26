@@ -1,4 +1,4 @@
-import { TreeNode } from "../components/FileExplorer";
+import { TreeNode } from "../types";
 
 class TreeNodeUtils {
   constructor(private rootNode: TreeNode) {}
